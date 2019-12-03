@@ -4,6 +4,13 @@ Point = namedtuple('Point', ['x', 'y'])
 starting_point = Point(8000, 8000)
 
 def solution_part_one(filename):
+    def calculate_steps(wire, last_point, intersection):
+        steps = 0
+        for i in range(last_point):
+            steps += abs(wire[i].x - wire[i+1].x) + abs(wire[i].y - wire[i+1].y)
+        steps += abs(intersection.x - wire[last_point].x) + abs(intersection.y - wire[last_point].y)
+        return steps
+
     def create_segments(wire_path):
         segment_list = [starting_point]
         for path in wire_path:
@@ -34,6 +41,7 @@ def solution_part_one(filename):
     wire_one_segments = create_segments(wire_one)
     wire_two_segments = create_segments(wire_two)
     distance = 1000000000
+    fewest_steps = 100000000
     for a in range(len(wire_one_segments) - 1):
         for b in range(len(wire_two_segments) - 1):
             point_a = Point(wire_one_segments[a].x, wire_one_segments[a].y)
@@ -51,11 +59,15 @@ def solution_part_one(filename):
                              or (point_b_prim.y <= point_a.y and
                                  point_a.y <= point_b.y))
                 if x_in_range and y_in_range:
+                    inter_p = Point(point_b.x, point_a.y)
                     found_distance = abs(point_b.x - starting_point.x) + abs(point_a.y - starting_point.y)
                     if found_distance < distance:
                         distance = found_distance
                     print(f"Found intersection I = ({point_b.x}, {point_a.y}) between Pa = [({point_a.x}, {point_a.y}), ({point_a_prim.x}, {point_a_prim.y})] and Pb [({point_b.x}, {point_b.y}), ({point_b_prim.x}, {point_b_prim.y})]")
                     print(f"Found distance: {found_distance}")
+                    steps = calculate_steps(wire_one_segments, a, inter_p) + calculate_steps(wire_two_segments, b, inter_p)
+                    if steps < fewest_steps:
+                        fewest_steps = steps
             # a vertical, b horizontal
             elif (point_a.x - point_a_prim.x == 0) and (point_b.y - point_b_prim.y == 0):
                 x_in_range = ((point_b.x <= point_a.x and
@@ -67,12 +79,17 @@ def solution_part_one(filename):
                              (point_a_prim.y <= point_b.y and
                               point_b.y <= point_a.y))
                 if x_in_range and y_in_range:
+                    inter_p = Point(point_a.x, point_b.y)
                     found_distance = abs(point_a.x - starting_point.x) + abs(point_b.y - starting_point.y)
                     if found_distance < distance:
                         distance = found_distance
                     print(f"Found intersection I = ({point_a.x}, {point_b.y}) between Pa = [({point_a.x}, {point_a.y}), ({point_a_prim.x}, {point_a_prim.y})] and Pb [({point_b.x}, {point_b.y}), ({point_b_prim.x}, {point_b_prim.y})]")
                     print(f"Found distance: {found_distance}")
+                    steps = calculate_steps(wire_one_segments, a, inter_p) + calculate_steps(wire_two_segments, b, inter_p)
+                    if steps < fewest_steps:
+                        fewest_steps = steps
     print(f"DISTANCE: {distance}")
+    print(f"STEPS: {fewest_steps}")
 
 if __name__ == '__main__':
     solution_part_one("Day3Input.txt")
