@@ -45,10 +45,6 @@ def solution_part_two(range_min, range_max):
         else:
             return False
 
-    ret_one = conditions_met(123444)
-    ret_two = conditions_met(111122)
-    ret_three = conditions_met(112233)
-
     password_no = 0
     for number in range(range_min, range_max):
         if conditions_met(number):
