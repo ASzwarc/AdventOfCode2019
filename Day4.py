@@ -23,6 +23,10 @@ def solution_part_two(range_min, range_max):
         for i in range(len(digit_list) - 1):
             if digit_list[i] > digit_list[i+1]:
                 return False
+        # I don't like this solution.
+        # You could save two indexes: start and end, which would move as group
+        # expands. In the end only size of group needs to be checked:
+        # (end - start) + 1
         i = 1
         group_digit = digit_list[0]
         group_size = 1
