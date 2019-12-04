@@ -17,5 +17,40 @@ def solution_part_one(range_min, range_max):
             password_no += 1
     print(f"Number of passwords in [{range_min}, {range_max}] = {password_no}")
 
+def solution_part_two(range_min, range_max):
+    def conditions_met(number):
+        digit_list = [int(digit) for digit in str(number)]
+        for i in range(len(digit_list) - 1):
+            if digit_list[i] > digit_list[i+1]:
+                return False
+        i = 1
+        group_digit = digit_list[0]
+        group_size = 1
+        while i < len(digit_list):
+            if group_digit == digit_list[i]:
+                group_size += 1
+                i += 1
+            elif group_digit != digit_list[i]:
+                if group_size == 2:
+                    return True
+                group_digit = digit_list[i]
+                group_size = 1
+                i += 1
+        if group_size == 2:
+            return True
+        else:
+            return False
+
+    ret_one = conditions_met(123444)
+    ret_two = conditions_met(111122)
+    ret_three = conditions_met(112233)
+
+    password_no = 0
+    for number in range(range_min, range_max):
+        if conditions_met(number):
+            password_no += 1
+    print(f"Number of passwords in [{range_min}, {range_max}] = {password_no}")
+
 if __name__ == '__main__':
     solution_part_one(124075, 580769)
+    solution_part_two(124075, 580769)
