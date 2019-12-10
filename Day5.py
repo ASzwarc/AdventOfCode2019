@@ -3,10 +3,9 @@ def solution_part_one(filename):
 
     def analyze_opcode(ptr):
         opcode_list = [digit for digit in str(input_list[ptr])]
-        opcode_list.reverse()
-        oper = int("".join(opcode_list[0:2]))
+        oper = int("".join(opcode_list[-2::]))
         indexes = []
-        for mode in opcode_list[2:]:
+        for mode in opcode_list[-3::-1]:
             ptr += 1
             if mode == "0": # position mode
                 indexes.append(input_list[ptr])
