@@ -22,7 +22,7 @@ def solution_part_one(filename):
 
     with open(filename) as file:
         input_list = [int(x) for x in file.readlines()[0].rstrip().split(",")]
-    input_val = 1
+    input_val = 5
     output_val = None
     ptr = 0
     while True:
@@ -30,11 +30,13 @@ def solution_part_one(filename):
         if oper == 1:
             input_list[indexes[2]] = (input_list[indexes[0]] +
                 input_list[indexes[1]])
-            ptr += 4
+            if ptr != indexes[2]:
+                ptr += 4
         elif oper == 2:
             input_list[indexes[2]] = (input_list[indexes[0]] *
                 input_list[indexes[1]])
-            ptr += 4
+            if ptr != indexes[2]:
+                ptr += 4
         elif oper == 3:
             input_list[input_list[ptr + 1]] = input_val
             ptr += 2
@@ -42,6 +44,30 @@ def solution_part_one(filename):
             output_val = input_list[input_list[ptr + 1]]
             print(f"Opcode 4 at {ptr} OUTPUT is {output_val}")
             ptr += 2
+        elif oper == 5: # jump-if-true
+            if input_list[indexes[0]] != 0:
+                ptr = input_list[indexes[1]]
+            else:
+                ptr += 3
+        elif oper == 6: # jump-if-false
+            if input_list[indexes[0]] == 0:
+                ptr = input_list[indexes[1]]
+            else:
+                ptr += 3
+        elif oper == 7: # less than
+            if input_list[indexes[0]] < input_list[indexes[1]]:
+                input_list[indexes[2]] = 1
+            else:
+                input_list[indexes[2]] = 0
+            if ptr != indexes[2]:
+                ptr += 4
+        elif oper == 8: # equals
+            if input_list[indexes[0]] == input_list[indexes[1]]:
+                input_list[indexes[2]] = 1
+            else:
+                input_list[indexes[2]] = 0
+            if ptr != indexes[2]:
+                ptr += 4
         elif oper == 99:
             print("Finished processing opcode")
             break
