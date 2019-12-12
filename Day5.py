@@ -1,5 +1,4 @@
-def solution_part_one(filename):
-    input_list = []
+def solution_part_one(input_list, input_val):
 
     def analyze_opcode(ptr):
         opcode_list = [digit for digit in str(input_list[ptr])]
@@ -19,9 +18,6 @@ def solution_part_one(filename):
                 indexes.append(input_list[ptr])
         return oper, indexes
 
-    with open(filename) as file:
-        input_list = [int(x) for x in file.readlines()[0].rstrip().split(",")]
-    input_val = 1
     output_val = None
     ptr = 0
     while True:
@@ -123,4 +119,9 @@ def solution_part_two(filename):
 
 
 if __name__ == '__main__':
-    solution_part_one("Day5Input.txt")
+    filename = "Day5Input.txt"
+
+    with open(filename) as file:
+        input_list = [int(x) for x in file.readlines()[0].rstrip().split(",")]
+    input_val = 1
+    solution_part_one(input_list, input_val)
