@@ -43,8 +43,7 @@ def solution_part_one(input_list, input_val):
     print(f"Diagnostic code is {output_val}")
 
 
-def solution_part_two(filename):
-    input_list = []
+def solution_part_two(input_list, input_val):
 
     def analyze_opcode(ptr):
         opcode_list = [digit for digit in str(input_list[ptr])]
@@ -86,7 +85,7 @@ def solution_part_two(filename):
             ptr += 2
         elif oper == 4:
             output_val = input_list[input_list[ptr + 1]]
-            print(f"Opcode 4 at {ptr} OUTPUT is {output_val}")
+            print(f"OUTPUT at PTR == {ptr} is {output_val}")
             ptr += 2
         elif oper == 5: # jump-if-true
             if input_list[indexes[0]] != 0:
