@@ -1,6 +1,6 @@
 from itertools import permutations
 
-def solution_part_one(input_list, phase_setting, amp_input_signal):
+def run_intcode_program(input_list, phase_setting, amp_input_signal):
 
     def analyze_opcode(ptr):
         opcode_list = [digit for digit in str(input_list[ptr])]
@@ -77,10 +77,22 @@ def solution_part_one(input_list, phase_setting, amp_input_signal):
             return output_val
 
 
-if __name__ == '__main__':
-    filename = "Day7Input.txt"
+def solution_part_one(input_list):
     max_configuration = None
     max_output_signal = 0
+    for phase_configuration in permutations(range(5), 5):
+        amp_signal = 0
+        for phase_setting in phase_configuration:
+            amp_signal = run_intcode_program(input_list, phase_setting,
+                                             amp_signal)
+        if amp_signal > max_output_signal:
+            max_output_signal = amp_signal
+            max_configuration = phase_configuration
+    print(f"{max_configuration} -> {max_output_signal}")
+
+if __name__ == '__main__':
+    filename = "Day7Input.txt"
+
     with open(filename) as file:
         input_list = [int(x) for x in file.readlines()[0].rstrip().split(",")]
     # Test input
@@ -89,12 +101,4 @@ if __name__ == '__main__':
     #               23,4,23,99,0,0]
     # input_list = [3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,1002,33,7,
     #               33,1,33,31,31,1,32,31,31,4,31,99,0,0,0]
-    for phase_configuration in permutations(range(5), 5):
-        amp_signal = 0
-        for phase_setting in phase_configuration:
-            amp_signal = solution_part_one(input_list, phase_setting,
-                                           amp_signal)
-        if amp_signal > max_output_signal:
-            max_output_signal = amp_signal
-            max_configuration = phase_configuration
-    print(f"{max_configuration} -> {max_output_signal}")
+    solution_part_one(input_list)
