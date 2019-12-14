@@ -90,6 +90,27 @@ def solution_part_one(input_list):
             max_configuration = phase_configuration
     print(f"{max_configuration} -> {max_output_signal}")
 
+
+def solution_part_two(input_list):
+    max_configuration = None
+    max_output_signal = 0
+    for phase_configuration in [(9, 8, 7, 6, 5)]: #permutations(range(5, 9), 5):
+        amp_signal = 0
+        first_run = True
+        while amp_signal < 139629729:
+            for phase_setting in phase_configuration:
+                if first_run:
+                    amp_signal = run_intcode_program(input_list, phase_setting,
+                                                     amp_signal)
+                else:
+                    amp_signal = run_intcode_program(input_list, amp_signal,
+                                                     amp_signal)
+            first_run = False
+        if amp_signal > max_output_signal:
+            max_output_signal = amp_signal
+            max_configuration = phase_configuration
+    print(f"{max_configuration} -> {max_output_signal}")
+
 if __name__ == '__main__':
     filename = "Day7Input.txt"
 
@@ -101,4 +122,13 @@ if __name__ == '__main__':
     #               23,4,23,99,0,0]
     # input_list = [3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,1002,33,7,
     #               33,1,33,31,31,1,32,31,31,4,31,99,0,0,0]
-    solution_part_one(input_list)
+    # solution_part_one(input_list)
+    # Test input
+    # solution (9,8,7,6,5) -> 139629729
+    input_list = [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,
+                  28,-1,28,1005,28,6,99,0,0,5]
+    # solution (9,7,8,5,6) -> 18216
+    # input_list = [3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,
+    #               1001,54,-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,
+    #               55,2,53,55,53,4,53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10]
+    solution_part_two(input_list)
