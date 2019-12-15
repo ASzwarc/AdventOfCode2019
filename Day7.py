@@ -1,34 +1,33 @@
 from itertools import permutations
 
-def run_intcode_program(input_list, phase_setting, amp_input_signal):
-
-    def analyze_opcode(ptr):
-        opcode_list = [digit for digit in str(input_list[ptr])]
-        oper = int("".join(opcode_list[-2::]))
-        indexes = []
-        for mode in opcode_list[-3::-1]:
-            ptr += 1
-            if mode == "0": # position mode
-                indexes.append(input_list[ptr])
-            else: # immediate mode
-                indexes.append(ptr)
-        if (oper == 1 or oper == 2 or oper == 7 or oper == 8):
-            required_length = 3
-        elif oper == 5 or oper == 6:
-            required_length = 2
-        else: # oper == 3 or oper == 4
-            required_length = 1
-
-        while len(indexes) < required_length:
-            ptr += 1
+def analyze_opcode(ptr, input_list):
+    opcode_list = [digit for digit in str(input_list[ptr])]
+    oper = int("".join(opcode_list[-2::]))
+    indexes = []
+    for mode in opcode_list[-3::-1]:
+        ptr += 1
+        if mode == "0": # position mode
             indexes.append(input_list[ptr])
-        return oper, indexes
+        else: # immediate mode
+            indexes.append(ptr)
+    if (oper == 1 or oper == 2 or oper == 7 or oper == 8):
+        required_length = 3
+    elif oper == 5 or oper == 6:
+        required_length = 2
+    else: # oper == 3 or oper == 4
+        required_length = 1
 
+    while len(indexes) < required_length:
+        ptr += 1
+        indexes.append(input_list[ptr])
+    return oper, indexes
+
+def run_intcode_program(input_list, phase_setting, amp_input_signal):
     output_val = None
     ptr = 0
     phase_setting_set = False
     while True:
-        oper, indexes = analyze_opcode(ptr)
+        oper, indexes = analyze_opcode(ptr, input_list)
         if oper == 1:
             input_list[indexes[2]] = (input_list[indexes[0]] +
                 input_list[indexes[1]])
