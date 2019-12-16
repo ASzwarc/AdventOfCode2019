@@ -90,24 +90,89 @@ def solution_part_one(input_list):
     print(f"{max_configuration} -> {max_output_signal}")
 
 
+# part two of the solution
+
+class AmpControllerSoftware():
+
+    def __init__(self, int_code, phase_val):
+        self._ptr = 0
+        self._intcode = int_code[:]
+        self._phase_set = False
+        self._intcode_finished = False
+        self._phase_val = phase_val
+
+    def is_finished(self):
+        return self._intcode_finished
+
+    def start_intcode(self, amp_signal):
+        output_val = None
+        while True:
+            oper, indexes = analyze_opcode(self._ptr, self._intcode)
+            if oper == 1:
+                self._intcode[indexes[2]] = (self._intcode[indexes[0]] +
+                    self._intcode[indexes[1]])
+                if self._ptr != indexes[2]:
+                    self._ptr += 4
+            elif oper == 2:
+                self._intcode[indexes[2]] = (self._intcode[indexes[0]] *
+                    self._intcode[indexes[1]])
+                if self._ptr != indexes[2]:
+                    self._ptr += 4
+            elif oper == 3:
+                if self._phase_set:
+                    self._intcode[self._intcode[self._ptr + 1]] = amp_signal
+                else:
+                    self._intcode[self._intcode[self._ptr + 1]] = self._phase_val
+                    self._phase_set = True
+                self._ptr += 2
+            elif oper == 4:
+                output_val = self._intcode[self._intcode[self._ptr + 1]]
+                self._ptr += 2
+                return output_val
+            elif oper == 5: # jump-if-true
+                if self._intcode[indexes[0]] != 0:
+                    self._ptr = self._intcode[indexes[1]]
+                else:
+                    self._ptr += 3
+            elif oper == 6: # jump-if-false
+                if self._intcode[indexes[0]] == 0:
+                    self._ptr = self._intcode[indexes[1]]
+                else:
+                    self._ptr += 3
+            elif oper == 7: # less than
+                if self._intcode[indexes[0]] < self._intcode[indexes[1]]:
+                    self._intcode[indexes[2]] = 1
+                else:
+                    self._intcode[indexes[2]] = 0
+                if self._ptr != indexes[2]:
+                    self._ptr += 4
+            elif oper == 8: # equals
+                if self._intcode[indexes[0]] == self._intcode[indexes[1]]:
+                    self._intcode[indexes[2]] = 1
+                else:
+                    self._intcode[indexes[2]] = 0
+                if self._ptr != indexes[2]:
+                    self._ptr += 4
+            elif oper == 99:
+                self._intcode_finished = True
+                return output_val
+
 def solution_part_two(input_list):
     max_configuration = None
     max_output_signal = 0
-    for phase_configuration in [(9, 8, 7, 6, 5)]: #permutations(range(5, 9), 5):
+    for phase_configuration in permutations(range(5, 10), 5):
+        amp_finished_no = 0
         amp_signal = 0
-        first_run = True
-        while amp_signal < 139629729:
-            for phase_setting in phase_configuration:
-                if first_run:
-                    amp_signal = run_intcode_program(input_list, phase_setting,
-                                                     amp_signal)
-                else:
-                    amp_signal = run_intcode_program(input_list, amp_signal,
-                                                     amp_signal)
-            first_run = False
+        amp_list = [AmpControllerSoftware(input_list, phase) for
+                    phase in phase_configuration]
+        while amp_finished_no < 5:
+            for amp in amp_list:
+                amp_signal = amp.start_intcode(amp_signal)
+                if amp.is_finished():
+                    amp_finished_no += 1
         if amp_signal > max_output_signal:
-            max_output_signal = amp_signal
             max_configuration = phase_configuration
+            max_output_signal = amp_signal
     print(f"{max_configuration} -> {max_output_signal}")
 
 if __name__ == '__main__':
