@@ -105,7 +105,8 @@ class AmpControllerSoftware():
         return self._intcode_finished
 
     def start_intcode(self, amp_signal):
-        output_val = None
+        print(f"Running intcode for {self._phase_val} amp with signal {amp_signal} and ptr {self._ptr}")
+        output_val = amp_signal
         while True:
             oper, indexes = analyze_opcode(self._ptr, self._intcode)
             if oper == 1:
@@ -155,6 +156,7 @@ class AmpControllerSoftware():
                     self._ptr += 4
             elif oper == 99:
                 self._intcode_finished = True
+                print(f"Amp {self._phase_val} finished with val {output_val} and ptr {self._ptr}")
                 return output_val
 
 def solution_part_two(input_list):
@@ -189,8 +191,8 @@ if __name__ == '__main__':
     # solution_part_one(input_list)
     # Test input
     # solution (9,8,7,6,5) -> 139629729
-    input_list = [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,
-                  28,-1,28,1005,28,6,99,0,0,5]
+    # input_list = [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,
+    #               28,-1,28,1005,28,6,99,0,0,5]
     # solution (9,7,8,5,6) -> 18216
     # input_list = [3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,
     #               1001,54,-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,
