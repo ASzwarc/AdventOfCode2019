@@ -14,8 +14,10 @@ def analyze_opcode(ptr, input_list):
         required_length = 3
     elif oper == 5 or oper == 6:
         required_length = 2
-    else: # oper == 3 or oper == 4
+    elif oper == 3 or oper == 4:
         required_length = 1
+    else: # oper == 99:
+        required_length = 0
 
     while len(indexes) < required_length:
         ptr += 1
@@ -105,7 +107,6 @@ class AmpControllerSoftware():
         return self._intcode_finished
 
     def start_intcode(self, amp_signal):
-        print(f"Running intcode for {self._phase_val} amp with signal {amp_signal} and ptr {self._ptr}")
         output_val = amp_signal
         while True:
             oper, indexes = analyze_opcode(self._ptr, self._intcode)
@@ -156,7 +157,8 @@ class AmpControllerSoftware():
                     self._ptr += 4
             elif oper == 99:
                 self._intcode_finished = True
-                print(f"Amp {self._phase_val} finished with val {output_val} and ptr {self._ptr}")
+                print(f"Amp {self._phase_val} finished with val "
+                      f"{output_val} and ptr {self._ptr}")
                 return output_val
 
 def solution_part_two(input_list):
