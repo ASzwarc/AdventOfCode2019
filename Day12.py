@@ -42,21 +42,19 @@ def solution_part_two(position_list):
                 elif position_list[moon_one][axis] > position_list[moon_two][axis]:
                     velocity_list[moon_one][axis] -= 1
                     velocity_list[moon_two][axis] += 1
-        for moon_no, _ in enumerate(position_list):
-            for axis in range(3):
+        for axis in range(3):
+            for moon_no in range(4):
                 position_list[moon_no][axis] += velocity_list[moon_no][axis]
-        for axis_no in range(len(position_list[0])):
-            moon_count = 0
-            for moon_no in range(len(position_list)):
-                if ((starting_points_list[moon_no][axis_no] ==
-                        position_list[moon_no][axis_no]) and
-                    (velocity_list[moon_no][axis_no] == 0) and
-                    (found_steps[axis_no] == -1)):
-                    moon_count += 1
-            if moon_count == len(position_list):
-                found_steps[axis_no] = step
-                points_to_find -= 4
-                print(f"Found point for axis {axis_no} in step {step}")
+            if ([velocity_list[row][axis] for row in range(4)].count(0) == 4
+                and all([1 if moon_pos[0] == moon_pos[1] else 0 for
+                         moon_pos in zip([position_list[row][axis] for
+                                          row in range(4)],
+                                         [starting_points_list[row][axis] for
+                                          row in range(4)])])
+                and found_steps[axis] == -1):
+                found_steps[axis] = step
+                points_to_find -=1
+                print(f"Found point for axis {axis} in step {step}")
         step += 1
     unique_steps = list(set(found_steps))
     lcm = unique_steps[0]
@@ -67,14 +65,14 @@ def solution_part_two(position_list):
 
 if __name__ == '__main__':
     # Test input
-    input_list = [[-1, 0, 2],
-                  [2, -10, -7],
-                  [4, -8, 8],
-                  [3, 5, -1]]
-    # input_list = [[-14,  -4, -11],
-    #               [ -9,   6,  -7],
-    #               [  4,   1,   4],
-    #               [  2, -14,  -9]]
+    # input_list = [[-1, 0, 2],
+    #               [2, -10, -7],
+    #               [4, -8, 8],
+    #               [3, 5, -1]]
+    input_list = [[-14,  -4, -11],
+                  [ -9,   6,  -7],
+                  [  4,   1,   4],
+                  [  2, -14,  -9]]
 
-    # solution_part_one(input_list, 1000)
+    solution_part_one(input_list, 1000)
     solution_part_two(input_list)
