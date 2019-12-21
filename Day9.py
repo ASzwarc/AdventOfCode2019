@@ -8,6 +8,7 @@ class IntcodeComputer():
     def read_program_instructions(self, program_list):
         self._program = program_list[:]
         self._ptr = 0
+        self._relative_base = 0
 
     def read_program_from_file(self, filename):
         with open(filename) as file:
@@ -24,8 +25,10 @@ class IntcodeComputer():
             ptr += 1
             if mode == "0": # position mode
                 indexes.append(self._program[ptr])
-            else: # immediate mode
+            elif mode == "1": # immediate mode
                 indexes.append(ptr)
+            else: # relative mode
+                indexes.append(ptr + self._relative_base)
         if (oper == 1 or oper == 2 or oper == 7 or oper == 8):
             required_length = 3
         elif oper == 5 or oper == 6:
@@ -72,8 +75,8 @@ class IntcodeComputer():
             self._program[self._program[self._ptr + 1]] = input_value
             self._ptr += 2
 
-    def read_output_value(self):
-            output_val = self._program[self._program[self._ptr + 1]]
+    def read_output_value(self, indexes):
+            output_val = self._program[indexes[0]]
             self._ptr += 2
             return output_val
 
@@ -89,10 +92,15 @@ class IntcodeComputer():
         else:
             self._ptr += 3
 
+    def change_relative_base(self, indexes):
+        self._relative_base += self._program[indexes[0]]
+        self._ptr += 2
+
     def run_intcode_program(self, input_value):
         output_val = None
         while True:
             oper, indexes = self._analyze_opcode()
+            print(f"Operation {oper} on indexes {indexes}")
             if oper == 1:
                 self.add(indexes)
             elif oper == 2:
@@ -100,7 +108,8 @@ class IntcodeComputer():
             elif oper == 3:
                 self.save_input_value(input_value)
             elif oper == 4:
-                output_val = self.read_output_value()
+                output_val = self.read_output_value(indexes)
+                print(output_val)
             elif oper == 5:
                 self.jump_if_true(indexes)
             elif oper == 6: # jump-if-false
@@ -109,7 +118,16 @@ class IntcodeComputer():
                 self.less_than(indexes)
             elif oper == 8: # equals
                 self.equals(indexes)
+            elif oper == 9:
+                self.change_relative_base(indexes)
             elif oper == 99:
                 print(f"Intcode finished! Output: {output_val}")
                 return output_val
 
+if __name__ == '__main__':
+    intcode_program = IntcodeComputer()
+    # Test inputs:
+    # 1. Quine (returns copy of itself)
+    input_list = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+    intcode_program.read_program_instructions(input_list)
+    intcode_program.run_intcode_program(0)
