@@ -28,7 +28,7 @@ class IntcodeComputer():
             elif mode == "1": # immediate mode
                 indexes.append(ptr)
             else: # relative mode
-                indexes.append(ptr + self._relative_base)
+                indexes.append(self._program[ptr] + self._relative_base)
         if (oper == 1 or oper == 2 or oper == 7 or oper == 8):
             required_length = 3
         elif oper == 5 or oper == 6:
