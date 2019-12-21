@@ -29,8 +29,8 @@ def solution_part_two(position_list):
     velocity_list = [[0, 0, 0] for _ in range(4)]
     starting_points_list = deepcopy(position_list)
     found_steps = [-1 for _ in range(3)]
-    step = 0
-    points_to_find = len(position_list)*len(position_list[0])
+    step = 1
+    points_to_find = 3
     while points_to_find > 0:
         for moon_pair in combinations(range(4), 2):
             for axis in range(3):
