@@ -82,8 +82,7 @@ class IntcodeComputer():
         self._ptr += 4
 
     def save_input_value(self, input_value, indexes):
-        index = self.get_val_at(indexes[0])
-        self.set_val_at(index, input_value)
+        self.set_val_at(indexes[0], input_value)
         self._ptr += 2
 
     def read_output_value(self, indexes):
