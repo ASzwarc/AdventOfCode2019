@@ -62,38 +62,34 @@ class IntcodeComputer():
             self.set_val_at(indexes[2], 1)
         else:
             self.set_val_at(indexes[2], 0)
-        if self._ptr != indexes[2]:
-            self._ptr += 4
+        self._ptr += 4
 
     def equals(self, indexes):
         if self.get_val_at(indexes[0]) == self.get_val_at(indexes[1]):
             self.set_val_at(indexes[2], 1)
         else:
             self.set_val_at(indexes[2], 0)
-        if self._ptr != indexes[2]:
-            self._ptr += 4
+        self._ptr += 4
 
     def add(self, indexes):
         result = self.get_val_at(indexes[0]) + self.get_val_at(indexes[1])
         self.set_val_at(indexes[2], result)
-        if self._ptr != indexes[2]:
-            self._ptr += 4
+        self._ptr += 4
 
     def multiply(self, indexes):
         result = self.get_val_at(indexes[0]) * self.get_val_at(indexes[1])
         self.set_val_at(indexes[2], result)
-        if self._ptr != indexes[2]:
-            self._ptr += 4
+        self._ptr += 4
 
-    def save_input_value(self, input_value):
-            index = self.get_val_at(self._ptr + 1)
-            self.set_val_at(index, input_value)
-            self._ptr += 2
+    def save_input_value(self, input_value, indexes):
+        index = self.get_val_at(indexes[0])
+        self.set_val_at(index, input_value)
+        self._ptr += 2
 
     def read_output_value(self, indexes):
-            output_val = self.get_val_at(indexes[0])
-            self._ptr += 2
-            return output_val
+        output_val = self.get_val_at(indexes[0])
+        self._ptr += 2
+        return output_val
 
     def jump_if_true(self, indexes):
         if self.get_val_at(indexes[0]) != 0:
@@ -121,7 +117,7 @@ class IntcodeComputer():
             elif oper == 2:
                 self.multiply(indexes)
             elif oper == 3:
-                self.save_input_value(input_value)
+                self.save_input_value(input_value, indexes)
             elif oper == 4:
                 output_val = self.read_output_value(indexes)
                 print(output_val)
@@ -148,5 +144,9 @@ if __name__ == '__main__':
     # input_list = [1102,34915192,34915192,7,4,7,99,0]
     # 3. Should output large number in the middle
     # input_list = [104,1125899906842624,99]
-    intcode_program.read_program_instructions(input_list)
-    intcode_program.run_intcode_program(0)
+    # intcode_program.read_program_instructions(input_list)
+    # intcode_program.run_intcode_program(0)
+
+    # Input for part 1 of challenge
+    intcode_program.read_program_from_file("Day9Input.txt")
+    intcode_program.run_intcode_program(1)
