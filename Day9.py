@@ -1,9 +1,23 @@
+from collections import defaultdict
 
 class IntcodeComputer():
     def __init__(self):
         self._program = []
         self._ptr = 0
         self._relative_base = 0
+        self._memory = defaultdict(int)
+
+    def get_val_at(self, index):
+        if index < len(self._program):
+            return self._program[index]
+        else:
+            return self._memory[index]
+
+    def set_val_at(self, index, value):
+        if index < len(self._program):
+            self._program[index] = value
+        else:
+            self._memory[index] = value
 
     def read_program_instructions(self, program_list):
         self._program = program_list[:]
@@ -44,63 +58,64 @@ class IntcodeComputer():
         return oper, indexes
 
     def less_than(self, indexes):
-        if self._program[indexes[0]] < self._program[indexes[1]]:
-            self._program[indexes[2]] = 1
+        if self.get_val_at(indexes[0]) < self.get_val_at(indexes[1]):
+            self.set_val_at(indexes[2], 1)
         else:
-            self._program[indexes[2]] = 0
+            self.set_val_at(indexes[2], 0)
         if self._ptr != indexes[2]:
             self._ptr += 4
 
     def equals(self, indexes):
-        if self._program[indexes[0]] == self._program[indexes[1]]:
-            self._program[indexes[2]] = 1
+        if self.get_val_at(indexes[0]) == self.get_val_at(indexes[1]):
+            self.set_val_at(indexes[2], 1)
         else:
-            self._program[indexes[2]] = 0
+            self.set_val_at(indexes[2], 0)
         if self._ptr != indexes[2]:
             self._ptr += 4
 
     def add(self, indexes):
-        self._program[indexes[2]] = (self._program[indexes[0]] +
-            self._program[indexes[1]])
+        result = self.get_val_at(indexes[0]) + self.get_val_at(indexes[1])
+        self.set_val_at(indexes[2], result)
         if self._ptr != indexes[2]:
             self._ptr += 4
 
     def multiply(self, indexes):
-        self._program[indexes[2]] = (self._program[indexes[0]] *
-            self._program[indexes[1]])
+        result = self.get_val_at(indexes[0]) * self.get_val_at(indexes[1])
+        self.set_val_at(indexes[2], result)
         if self._ptr != indexes[2]:
             self._ptr += 4
 
     def save_input_value(self, input_value):
-            self._program[self._program[self._ptr + 1]] = input_value
+            index = self.get_val_at(self._ptr + 1)
+            self.set_val_at(index, input_value)
             self._ptr += 2
 
     def read_output_value(self, indexes):
-            output_val = self._program[indexes[0]]
+            output_val = self.get_val_at(indexes[0])
             self._ptr += 2
             return output_val
 
     def jump_if_true(self, indexes):
-        if self._program[indexes[0]] != 0:
-            self._ptr = self._program[indexes[1]]
+        if self.get_val_at(indexes[0]) != 0:
+            self._ptr = self.get_val_at(indexes[1])
         else:
             self._ptr += 3
 
     def jump_if_false(self, indexes):
-        if self._program[indexes[0]] == 0:
-            self._ptr = self._program[indexes[1]]
+        if self.get_val_at(indexes[0]) == 0:
+            self._ptr = self.get_val_at(indexes[1])
         else:
             self._ptr += 3
 
     def change_relative_base(self, indexes):
-        self._relative_base += self._program[indexes[0]]
+        self._relative_base += self.get_val_at(indexes[0])
         self._ptr += 2
 
     def run_intcode_program(self, input_value):
         output_val = None
         while True:
             oper, indexes = self._analyze_opcode()
-            print(f"Operation {oper} on indexes {indexes}")
+            # print(f"Operation {oper} on indexes {indexes}")
             if oper == 1:
                 self.add(indexes)
             elif oper == 2:
