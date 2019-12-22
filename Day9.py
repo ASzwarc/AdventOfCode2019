@@ -143,6 +143,10 @@ if __name__ == '__main__':
     intcode_program = IntcodeComputer()
     # Test inputs:
     # 1. Quine (returns copy of itself)
-    input_list = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+    # input_list = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+    # 2. Should output 16-digit number
+    # input_list = [1102,34915192,34915192,7,4,7,99,0]
+    # 3. Should output large number in the middle
+    # input_list = [104,1125899906842624,99]
     intcode_program.read_program_instructions(input_list)
     intcode_program.run_intcode_program(0)
