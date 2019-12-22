@@ -149,3 +149,7 @@ if __name__ == '__main__':
     # Input for part 1 of challenge
     intcode_program.read_program_from_file("Day9Input.txt")
     intcode_program.run_intcode_program(1)
+
+    # Input for part 2 of challenge
+    intcode_program.read_program_from_file("Day9Input.txt")
+    intcode_program.run_intcode_program(2)
