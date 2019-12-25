@@ -1,7 +1,6 @@
 import re
 
-def apply_shuffle_seq(sequence_list, deck_len):
-    card_deck = [card for card in range(deck_len)]
+def apply_shuffle_seq(sequence_list, deck_len, card_deck):
     deal_into_pattern = re.compile(r"(deal into new stack)")
     cut_cards_pattern = re.compile(r"(cut) (-?\d+)")
     deal_with_pattern = re.compile(r"(deal with increment) (\d+)")
@@ -34,7 +33,7 @@ def apply_shuffle_seq(sequence_list, deck_len):
 
 def solution_part_one(input_list, deck_len):
     card_deck = [card for card in range(deck_len)]
-    card_deck = apply_shuffle_seq(input_list, deck_len)
+    card_deck = apply_shuffle_seq(input_list, deck_len, card_deck)
     position_of_2019 = card_deck.index(2019)
     print(f"Position of card 2019 is {position_of_2019}")
 
