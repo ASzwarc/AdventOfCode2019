@@ -108,7 +108,8 @@ class IntcodeComputer():
         self._ptr += 2
 
     def run_intcode_program(self, input_value):
-        output_val = None
+        first_output_val = None
+        second_output_val = None
         while not self._is_finished:
             oper, indexes = self._analyze_opcode()
             # print(f"Operation {oper} on indexes {indexes}")
@@ -117,10 +118,15 @@ class IntcodeComputer():
             elif oper == 2:
                 self.multiply(indexes)
             elif oper == 3:
+                print(f"Reading input val {input_value}")
                 self.save_input_value(input_value, indexes)
             elif oper == 4:
-                output_val = self.read_output_value(indexes)
-                print(output_val)
+                if first_output_val is None:
+                    first_output_val = self.read_output_value(indexes)
+                elif first_output_val is not None and second_output_val is None:
+                    second_output_val = self.read_output_value(indexes)
+                if first_output_val is not None and second_output_val is not None:
+                    return first_output_val, second_output_val
             elif oper == 5:
                 self.jump_if_true(indexes)
             elif oper == 6: # jump-if-false
@@ -133,5 +139,3 @@ class IntcodeComputer():
                 self.change_relative_base(indexes)
             elif oper == 99:
                 self._is_finished = True
-                print(f"Intcode finished! Output: {output_val}")
-                return output_val
