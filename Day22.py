@@ -37,6 +37,13 @@ def solution_part_one(input_list, deck_len):
     position_of_2019 = card_deck.index(2019)
     print(f"Position of card 2019 is {position_of_2019}")
 
+def solution_part_two(input_list, deck_len):
+    # Solution explained in:
+    # https://www.reddit.com/r/adventofcode/comments/ee0rqi/2019_day_22_solutions/fbnifwk/
+    # I don't understand it yet
+    pass
+
+
 if __name__ == '__main__':
     with open("Day22Input.txt") as file:
         result = [line.rstrip('\n') for line in file.readlines()]
