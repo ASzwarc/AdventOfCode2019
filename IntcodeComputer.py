@@ -139,3 +139,4 @@ class IntcodeComputer():
                 self.change_relative_base(indexes)
             elif oper == 99:
                 self._is_finished = True
+        return (first_output_val, second_output_val)
