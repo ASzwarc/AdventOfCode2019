@@ -4,7 +4,7 @@ from math import gcd
 
 def solution_part_one(position_list, steps_no):
     velocity_list = [[0, 0, 0] for _ in range(4)]
-    for step in range(steps_no):
+    for _ in range(steps_no):
         for moon_pair in combinations(range(4), 2):
             for axis in range(3):
                 moon_one = moon_pair[0]
