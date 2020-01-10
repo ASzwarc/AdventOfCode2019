@@ -1,4 +1,5 @@
 from collections import defaultdict
+import unittest
 
 class IntcodeComputer():
     def __init__(self):
@@ -132,3 +133,46 @@ class IntcodeComputer():
                 self._is_finished = True
                 return None
 
+
+class TestIntcodeComputer(unittest.TestCase):
+
+    def test_quine(self):
+        computer = IntcodeComputer()
+        input_list = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+        computer.read_program_instructions(input_list)
+        output_list = []
+        is_finished = False
+        while not is_finished:
+            ret_val = computer.run_intcode_program()
+            if ret_val is None:
+                is_finished = True
+            else:
+                output_list.append(ret_val)
+
+        self.assertTrue(computer._is_finished)
+        self.assertEqual(output_list, input_list)
+
+    def test_return_16_digit_number(self):
+        computer = IntcodeComputer()
+        input_list = [1102,34915192,34915192,7,4,7,99,0]
+        computer.read_program_instructions(input_list)
+        ret_val = computer.run_intcode_program()
+        final_code = computer.run_intcode_program()
+
+        self.assertTrue(computer._is_finished)
+        self.assertEqual(ret_val, 1219070632396864)
+        self.assertIsNone(final_code)
+
+    def test_return_number_in_the_middle_of_output(self):
+        computer = IntcodeComputer()
+        input_list = [104,1125899906842624,99]
+        computer.read_program_instructions(input_list)
+        ret_val = computer.run_intcode_program()
+        final_code = computer.run_intcode_program()
+
+        self.assertTrue(computer._is_finished)
+        self.assertEqual(ret_val, 1125899906842624)
+        self.assertIsNone(final_code)
+
+if __name__ == '__main__':
+    unittest.main()
