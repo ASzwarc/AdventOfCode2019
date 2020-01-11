@@ -1,4 +1,5 @@
 from IntcodeComputer import IntcodeComputer
+from matplotlib import pyplot as plt
 
 def turn_robot(position, turn, dir_index):
     # convention: (x, y)
@@ -36,5 +37,18 @@ def solution_part_one(filename):
     painted_positions = run_painting_program(filename, 0)
     print(f"Number of colored panels is {len(painted_positions)}")
 
+def solution_part_two(filename):
+    painted_positions = run_painting_program(filename, 1)
+    x = []
+    y = []
+    for position, color in painted_positions.items():
+        if color == 1:
+            x.append(position[0])
+            y.append(position[1])
+
+    plt.scatter(x, y, marker='o')
+    plt.show()
+
 if __name__ == '__main__':
     solution_part_one("Day11Input.txt")
+    solution_part_two("Day11Input.txt")
