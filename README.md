@@ -9,3 +9,7 @@ I wrote code with some debug prints and run it with provided input. Code was run
 __Lessons learned__:
 - prints in Python are reeeealy slow, without them code runs 10x faster
 - be patient...
+
+__Day 10__
+
+I don't understand how to check visibility of asteroid. Instruction is written in very obfuscated way."
