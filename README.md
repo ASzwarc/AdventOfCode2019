@@ -14,4 +14,4 @@ __Day 10__
 
 - I don't understand how to check visibility of asteroid. Instruction is written in very obfuscated way.
 - I thought about cells and this is bad approach. It's simple geometry, you only need to check if asteroid (point) lays on the line between two points.
-- I still don't know how to do it in optimal way...
+- I've checked solution on reddit and whole problem is really simple, you just need to calculate angle between asteroids using atan2 and check if such angle for asteroid already exists.
