@@ -1,14 +1,13 @@
 import math
 
-def solution_part_one(filename):
+def parse_input(filename):
     asteroid_pos = []
     with open(filename) as file:
         for row_no, row in enumerate(file.readlines()):
             for col_no, col in enumerate(row.rstrip()):
                 if col == "#":
                     asteroid_pos.append((col_no, row_no))
-    print(get_asteroids_visibility(asteroid_pos))
-
+    return asteroid_pos
 
 def get_asteroids_visibility(asteroids_pos):
     best_score = 0
@@ -51,4 +50,5 @@ if __name__ == '__main__':
                  for x, elem in enumerate(row) if elem == '#']
     # Result: best should be (5, 8) with 33 asteroids detected
     print(get_asteroids_visibility(positions))
-    solution_part_one("Day10Input.txt")
+    part_one_result = get_asteroids_visibility(parse_input("Day10Input.txt"))
+    print(f"Part one result: {part_one_result}")
