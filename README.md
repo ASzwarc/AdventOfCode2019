@@ -17,3 +17,6 @@ Part 1
 - I've checked solution on reddit and whole problem is really simple, you just need to calculate angle between asteroids using atan2 and check if such angle for asteroid already exists.
 Part 2
 - Issue doesn't look hard but I don't know how to calculate steps so that asteroids aren't omitted.
+- I was going back in circles so I've looked at some solution and was inspired with my own solution.
+- I'm using again angles and distances to calculate rotation of the laser to destroy each asteroid and then I sort them from smallest angle.
+- Solution is not working yet, probably I've mixed something with coordinates or calculating angles since laser is rotating clockwise.
