@@ -24,29 +24,20 @@ def get_asteroids_visibility(asteroids_pos):
 
 
 def get_200th_vaporized_asteroid(asteroids_pos, laser_pos):
-    vaporisation_order = []
+    sorted_asteroids = {}
     asteroids_pos.remove(laser_pos)
+    half_pi = math.pi / 2
     for x, y in asteroids_pos:
-        in_line = []
-        angle = -math.atan2(y - laser_pos[1], x - laser_pos[0])
+        angle = math.degrees(math.atan2(y - laser_pos[1], x - laser_pos[0]) + half_pi)
+        if angle < 0:
+            angle += 360.0
         d = math.sqrt((x - laser_pos[0]) ** 2 + (y - laser_pos[1]) ** 2)
-        for x2, y2 in asteroids_pos:
-            if (x, y) != (x2, y2):
-                angle2 = -math.atan2(y2 - laser_pos[1], x2 - laser_pos[0])
-                if angle == angle2:
-                    d2 = math.sqrt((x2 - laser_pos[0]) ** 2 +
-                                   (y2 - laser_pos[1]) ** 2)
-                    in_line.append((x2, y2, d2))
-        in_line.append((x, y, d))
-        in_line.sort(key=lambda tup: tup[2])
-        offset = 0
-        for x, y, _ in in_line:
-            vaporisation_order.append((x, y, angle + offset))
-            offset += 2*math.pi
-    vaporisation_order.sort(key=lambda tup: tup[2])
-    for no, element in enumerate(vaporisation_order):
-        print(f"{no+1}: ({element[0]}, {element[1]}) = {element[2]}")
-    # return vaporisation_order[199]
+        if angle in sorted_asteroids:
+            asteroids = sorted_asteroids[angle]
+        asteroids.append((x, y, d))
+        asteroids.sort(key=lambda tup: tup[2])
+        sorted_asteroids[angle] = asteroids
+        # I should use OrderedDictionary from collections
 
 
 if __name__ == '__main__':
