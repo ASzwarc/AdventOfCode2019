@@ -20,3 +20,5 @@ Part 2
 - I was going back in circles so I've looked at some solution and was inspired with my own solution.
 - I'm using again angles and distances to calculate rotation of the laser to destroy each asteroid and then I sort them from smallest angle.
 - Solution is not working yet, probably I've mixed something with coordinates or calculating angles since laser is rotating clockwise.
+- I don't know yet if this is an issue but I'm not taking into account that I shouldn't be storing results because after destruction of each asteroid, old ones could become visible.
+- Found description of approach similar to mine but with dictionary with angles as keys, which gave me idea how to solve this. Maybe it will work.
