@@ -50,7 +50,7 @@ def get_200th_vaporized_asteroid(asteroids_pos, laser_pos):
     return asteroid[0] * 100 + asteroid[1]
 
 if __name__ == '__main__':
-    test_input_map = [
+    test1_input_map = [
         ['.', '#', '.', '.', '#', '#', '.', '#', '#', '#', '.', '.', '.', '#', '#', '#', '#', '#', '#', '#'],
         ['#', '#', '.', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '.', '.', '#', '#', '.'],
         ['.', '#', '.', '#', '#', '#', '#', '#', '#', '.', '#', '#', '#', '#', '#', '#', '#', '#', '.', '#'],
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         ['#', '.', '#', '.', '#', '.', '#', '#', '#', '#', '#', '.', '#', '#', '#', '#', '.', '#', '#', '#'],
         ['#', '#', '#', '.', '#', '#', '.', '#', '#', '#', '#', '.', '#', '#', '.', '#', '.', '.', '#', '#']
     ]
-    positions = [(x, y) for y, row in enumerate(test_input_map)
+    positions = [(x, y) for y, row in enumerate(test1_input_map)
                  for x, elem in enumerate(row) if elem == '#']
     # Result: best should be (5, 8) with 33 asteroids detected
     print(get_asteroids_visibility(positions))
