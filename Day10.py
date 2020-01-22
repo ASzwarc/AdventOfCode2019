@@ -79,13 +79,7 @@ if __name__ == '__main__':
     part_one_result = get_asteroids_visibility(parse_input("Day10Input.txt"))
     print(f"Part one result: {part_one_result}")
 
-    test2_input_map = [
-        ['.', '#', '.', '.', '.', '.', '#', '#', '#', '#', '#', '.', '.', '.', '#', '.', '.'],
-        ['#', '#', '.', '.', '.', '#', '#', '.', '#', '#', '#', '#', '#', '.', '.', '#', '#'],
-        ['#', '#', '.', '.', '.', '#', '.', '.', '.', '#', '.', '#', '#', '#', '#', '#', '.'],
-        ['.', '.', '#', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#', '#', '#', '.', '.'],
-        ['.', '.', '#', '.', '#', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '#', '#']
-    ]
-    positions = [(x, y) for y, row in enumerate(test2_input_map)
+    # Result: should be 802 since 200th asteroid is (8, 2)
+    positions = [(x, y) for y, row in enumerate(test1_input_map)
                  for x, elem in enumerate(row) if elem == '#']
     get_200th_vaporized_asteroid(positions, (8, 3))
