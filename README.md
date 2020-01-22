@@ -22,3 +22,4 @@ Part 2
 - Solution is not working yet, probably I've mixed something with coordinates or calculating angles since laser is rotating clockwise.
 - I don't know yet if this is an issue but I'm not taking into account that I shouldn't be storing results because after destruction of each asteroid, old ones could become visible.
 - Found description of approach similar to mine but with dictionary with angles as keys, which gave me idea how to solve this. Maybe it will work.
+- It finally works!!! I've also used collections.OrderedDict
