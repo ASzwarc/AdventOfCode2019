@@ -82,4 +82,7 @@ if __name__ == '__main__':
     # Result: should be 802 since 200th asteroid is (8, 2)
     positions = [(x, y) for y, row in enumerate(test1_input_map)
                  for x, elem in enumerate(row) if elem == '#']
-    get_200th_vaporized_asteroid(positions, (8, 3))
+    print(f"{get_200th_vaporized_asteroid(positions, (11, 13))}")
+    part_two_result = get_200th_vaporized_asteroid(
+        parse_input("Day10Input.txt"),(26, 29))
+    print(f"Part two result: {part_two_result}")
