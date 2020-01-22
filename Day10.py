@@ -1,4 +1,5 @@
 import math
+from collections import OrderedDict
 
 def parse_input(filename):
     asteroid_pos = []
@@ -24,21 +25,29 @@ def get_asteroids_visibility(asteroids_pos):
 
 
 def get_200th_vaporized_asteroid(asteroids_pos, laser_pos):
-    sorted_asteroids = {}
+    a_by_angle = {}
     asteroids_pos.remove(laser_pos)
     half_pi = math.pi / 2
     for x, y in asteroids_pos:
+        asteroids = []
         angle = math.degrees(math.atan2(y - laser_pos[1], x - laser_pos[0]) + half_pi)
         if angle < 0:
             angle += 360.0
         d = math.sqrt((x - laser_pos[0]) ** 2 + (y - laser_pos[1]) ** 2)
-        if angle in sorted_asteroids:
-            asteroids = sorted_asteroids[angle]
+        if angle in a_by_angle:
+            asteroids = a_by_angle[angle][:]
         asteroids.append((x, y, d))
         asteroids.sort(key=lambda tup: tup[2])
-        sorted_asteroids[angle] = asteroids
-        # I should use OrderedDictionary from collections
+        a_by_angle[angle] = asteroids
+    sorted_a_by_angle = OrderedDict(sorted(a_by_angle.items(),
+                                           key=lambda x: x[0]))
 
+    a_index = 200 // len(sorted_a_by_angle)
+    key_no = 199 - a_index * len(sorted_a_by_angle)
+    a_key = list(sorted_a_by_angle.keys())[key_no]
+    asteroid = sorted_a_by_angle[a_key][a_index]
+    print(f"200th asteroid is ({asteroid[0]},{asteroid[1]})")
+    return asteroid[0] * 100 + asteroid[1]
 
 if __name__ == '__main__':
     test_input_map = [
