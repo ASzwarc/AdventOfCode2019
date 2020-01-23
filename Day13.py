@@ -1,4 +1,7 @@
 from IntcodeComputer import IntcodeComputer
+from collections import namedtuple
+
+Pos = namedtuple('Pos', ['x', 'y'])
 
 def solution_part_one(input_file):
     comp = IntcodeComputer()
@@ -9,7 +12,22 @@ def solution_part_one(input_file):
         if comp._is_finished:
             break
         output.append(ret_val)
-    print(output)
+
+    blocks = []
+    ball_pos = Pos(0, 0)
+
+    for i in range(0, len(output), 3):
+        x, y, elem = output[i:i+3]
+        if elem == 2:
+            block = Pos(x, y)
+            if block in blocks:
+                blocks.remove(block)
+            else:
+                blocks.append(block)
+        elif elem == 4:
+            ball_pos = Pos(x, y)
+            print(ball_pos)
+    print(blocks)
 
 
 if __name__ == '__main__':
