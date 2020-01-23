@@ -23,3 +23,9 @@ Part 2
 - I don't know yet if this is an issue but I'm not taking into account that I shouldn't be storing results because after destruction of each asteroid, old ones could become visible.
 - Found description of approach similar to mine but with dictionary with angles as keys, which gave me idea how to solve this. Maybe it will work.
 - It finally works!!! I've also used collections.OrderedDict
+
+__Day 13__
+Part 1
+- Reading intcode and printing output is simple.
+- I think that I will create namedtuple for coordinates, variables for tracking paddle and ball positions and some structure for holding block tiles that are on screen
+- Instruction is not clear to me. When ball collides with block? When there is collision I should remove one point or whole block?
