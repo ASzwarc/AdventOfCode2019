@@ -30,3 +30,6 @@ Part 1
 - I think that I will create namedtuple for coordinates, variables for tracking paddle and ball positions and some structure for holding block tiles that are on screen
 - Instruction is not clear to me. When ball collides with block? When there is collision I should remove one point or whole block?
 - I wasn't sure how to calculate colisions so I just printed out length of list of blocks taken from intcode output and it worked...
+Part 2
+- It looks hard, I will start with playing around with intcode and see what's the output
+- Still can get it how to set memory and how computer is working. I will move to next challenge and think about this in the mean time.
