@@ -26,8 +26,7 @@ def solution_part_one(input_file):
                 blocks.append(block)
         elif elem == 4:
             ball_pos = Pos(x, y)
-            print(ball_pos)
-    print(blocks)
+    print(len(blocks))
 
 
 if __name__ == '__main__':
