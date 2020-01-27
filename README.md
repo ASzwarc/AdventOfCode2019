@@ -33,3 +33,9 @@ Part 1
 Part 2
 - It looks hard, I will start with playing around with intcode and see what's the output
 - Still can get it how to set memory and how computer is working. I will move to next challenge and think about this in the mean time.
+
+__Day14__
+Part 1
+- First I will figure out how to parse input.
+- Parsing input done, I'm not sure in what datastructure keep data... I'm thinking about dictionary (as an adjacency list) with following tuples (substance, quantity)
+- I've added some recursion but I'm not sure if this ok, since I still don't know how to calculate quantity of elements.
