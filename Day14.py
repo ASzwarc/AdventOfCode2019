@@ -10,6 +10,31 @@ def parse_input_file(filename):
                 input_dict[m.group(2)] = m.group(1)
     return input_dict
 
+def solution_part_one(input_dict):
+    def get_basic_ingredients_for(name, count, basic_formula):
+        formula = reactions.get(name)
+        for elem, quan in formula['ing'].items():
+            if len(reactions.get(elem)['ing']) == 1:
+                print(f"Adding {quan} {elem}")
+                if elem in basic_formula:
+                    basic_formula[elem] += quan * count
+                else:
+                    basic_formula[elem] = quan * count
+            else:
+                print("Searching ingredients for " + elem)
+                get_basic_ingredients_for(elem, quan, basic_formula)
+
+    reactions = {}
+    for key, value in input_dict.items():
+        reactions[key.split()[1]] = {'no': int(key.split()[0]),
+            'ing': {e.split()[1]: int(e.split()[0]) for
+                    e in value.split(', ')}}
+    basic_formula = {}
+    print(reactions)
+    print("\n")
+    get_basic_ingredients_for('FUEL', 1, basic_formula)
+    print(basic_formula)
+
 if __name__ == '__main__':
     # Simple testing input
     test_input1 = {'2 A': '9 ORE',
