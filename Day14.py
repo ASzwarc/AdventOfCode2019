@@ -30,10 +30,18 @@ def solution_part_one(input_dict):
             'ing': {e.split()[1]: int(e.split()[0]) for
                     e in value.split(', ')}}
     basic_formula = {}
-    print(reactions)
-    print("\n")
     get_basic_ingredients_for('FUEL', 1, basic_formula)
-    print(basic_formula)
+    ore_count = 0
+    for key, value in basic_formula.items():
+        a = reactions[key]['no']
+        b = reactions[key]['ing']['ORE']
+        mod = value % a
+        if mod == 0:
+            ore_count += (value // a) * b
+        else:
+            ore_count += ((value // a) + 1) * b
+    return ore_count
+
 
 if __name__ == '__main__':
     # Simple testing input
