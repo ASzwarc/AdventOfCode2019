@@ -52,4 +52,14 @@ if __name__ == '__main__':
                    '1 BC': '5 B, 7 C',
                    '1 CA': '4 C, 1 A',
                    '1 FUEL': '2 AB, 3 BC, 4 CA'}
+    test_input2 = {'5 NZVS': '157 ORE',
+                   '6 DCFZ': '165 ORE',
+                   '1 FUEL': '44 XJWVT, 5 KHKGT, 1 QDVJ, 29 NZVS, 9 GPVTF, 48 HKGWZ',
+                   '9 QDVJ': '12 HKGWZ, 1 GPVTF, 8 PSHF',
+                   '7 PSHF': '179 ORE',
+                   '5 HKGWZ': '177 ORE',
+                   '2 XJWVT': '7 DCFZ, 7 PSHF',
+                   '2 GPVTF': '165 ORE',
+                   '8 KHKGT': '3 DCFZ, 7 NZVS, 5 HKGWZ, 10 PSHF'}
     assert(165 == solution_part_one(test_input1))
+    assert(13312 == solution_part_one(test_input2))
