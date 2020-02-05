@@ -49,8 +49,7 @@ def solution_part_one(input_dict):
         a = get_quantity(count, formula['no'], formula['ing']['ORE'])
         print(f"For {count} {element} adding {a} ORE")
         ore_count += a
-    print(basic_ingredients)
-    print(ore_count)
+    print(f"ORE: {ore_count}")
     return ore_count
 
 if __name__ == '__main__':
