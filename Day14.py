@@ -11,6 +11,15 @@ def parse_input_file(filename):
     return input_dict
 
 def solution_part_one(input_dict):
+    def get_quantity(count, no):
+        if count > no:
+            a = count // no
+            if count % no != 0:
+                a += 1
+        else:
+            a = no
+        return a
+
     reactions = {}
     for key, value in input_dict.items():
         reactions[key.split()[1]] = {'no': int(key.split()[0]),
@@ -30,18 +39,12 @@ def solution_part_one(input_dict):
                 else:
                     basic_ingredients[reaction[0]] = reaction[1]
             else:
+                print(f"Added {count*reaction[1]} {element}")
                 reactions_queue.append((element, count*reaction[1]))
     ore_count = 0
     for element, count in basic_ingredients.items():
         formula = reactions.get(element)
-        no = formula['no']
-        if count > no:
-            a = count // no
-            if count % no != 0:
-                a += 1
-        else:
-            a = no
-        a *= formula['ing']['ORE']
+        a = get_quantity(count, formula['no']) * formula['ing']['ORE']
         print(f"For {count} {element} adding {a} ORE")
         ore_count += a
     print(basic_ingredients)
