@@ -43,3 +43,6 @@ Part 1
 - Still going with recursion, created function for getting basic ingredients. Not sure if this is the most optimal solution...
 - Managed to implement function for getting basic ingridients into dictionary. First simple testcase is passing. Unfortunately more complicated one is failing. Issue is caused by not taking into account main element's quantity in formula.
 - I've changed approach...again. I'm thinking about function with normal loop and queue that will hold basic ingredients.
+- Solution with queue is not finished but looks much more simpler and easier to reason about at the moment.
+- First test is passing, second is not because I'm not calculating proper amount of ingredients in complex formulas.
+- Second test is passing, but final input is not...
