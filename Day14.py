@@ -70,7 +70,7 @@ if __name__ == '__main__':
                    '2 XJWVT': '7 DCFZ, 7 PSHF',
                    '2 GPVTF': '165 ORE',
                    '8 KHKGT': '3 DCFZ, 7 NZVS, 5 HKGWZ, 10 PSHF'}
-    test_input3 = {'1 STKFG': '2 VPVL, 7 FWMGM, 2 CXFTF, 11 MNCFX,',
+    test_input3 = {'1 STKFG': '2 VPVL, 7 FWMGM, 2 CXFTF, 11 MNCFX',
                    '8 VPVL': '17 NVRVD, 3 JNWZP',
                    '1 FUEL': '53 STKFG, 6 MNCFX, 46 VJHF, 81 HVMC, 68 CXFTF, 25 GNMV',
                    '5 FWMGM': '22 VJHF, 37 MNCFX',
