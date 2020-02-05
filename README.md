@@ -46,3 +46,4 @@ Part 1
 - Solution with queue is not finished but looks much more simpler and easier to reason about at the moment.
 - First test is passing, second is not because I'm not calculating proper amount of ingredients in complex formulas.
 - Second test is passing, but final input is not...
+- I've added third input and it's not passing because value I output is too big by 2000 OREs. I think it's caused by summing only basic ingredients (one that have only ORE in formula) and rounding up complex ingredients in the middle. Due to that final results is higher than expected.
