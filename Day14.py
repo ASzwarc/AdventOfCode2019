@@ -11,6 +11,15 @@ def parse_input_file(filename):
     return input_dict
 
 def solution_part_one(input_dict):
+    def calculate_change(count, base):
+        change = 0
+        if count % base != 0:
+            if count > base:
+                change = (count // base + 1) * base - count
+            else:
+                change = base - count
+        return change
+
     def get_quantity(main_el_count, base, ingredient_count):
         if main_el_count > base:
             a = main_el_count // base
@@ -29,20 +38,45 @@ def solution_part_one(input_dict):
 
     reactions_queue = [('FUEL', 1)]
     basic_ingredients = {}
+    change_dict = {}
     while reactions_queue:
         reaction = reactions_queue.pop(0)
         formula = reactions.get(reaction[0])
         print(f"{reaction} -> {formula}")
+        change = calculate_change(reaction[1], formula['no'])
+        if change != 0:
+            if reaction[0] in change_dict:
+                change_dict[reaction[0]] += change
+            else:
+                change_dict[reaction[0]] = change
+            print(f"Added change {change} {reaction[0]}")
         for element, count in formula['ing'].items():
             if element == 'ORE':
+                if reaction[0] in change_dict and change_dict[reaction[0]] > 0:
+                    a = reaction[1]
+                    change = change_dict.get(reaction[0])
+                    if a > change:
+                        a -= change
+                        change_dict[reaction[0]] = 0
+                    else:
+                        change_dict[reaction[0]] -= a
                 if reaction[0] in basic_ingredients:
-                    basic_ingredients[reaction[0]] += reaction[1]
+                    basic_ingredients[reaction[0]] += a
                 else:
-                    basic_ingredients[reaction[0]] = reaction[1]
+                    basic_ingredients[reaction[0]] = a
+                print(f"BASIC: Added {a} {reaction[0]}")
             else:
                 a = get_quantity(reaction[1], formula['no'], count)
-                print(f"Added {a} {element}")
-                reactions_queue.append((element, a))
+                if reaction[0] in change_dict and change_dict[reaction[0]] > 0:
+                    change = change_dict.get(reaction[0])
+                    if a > change:
+                        a -= change
+                        change_dict[reaction[0]] = 0
+                    else:
+                        change_dict[reaction[0]] -= a
+                if a > 0:
+                    print(f"Added {a} {element}")
+                    reactions_queue.append((element, a))
     ore_count = 0
     for element, count in basic_ingredients.items():
         formula = reactions.get(element)
@@ -83,6 +117,9 @@ if __name__ == '__main__':
                    '4 RFSQX': '1 VJHF, 6 MNCFX',
                    '6 VJHF': '176 ORE'}
     assert(165 == solution_part_one(test_input1))
+    print("-" * 30)
     assert(13312 == solution_part_one(test_input2))
+    print("-" * 30)
     assert(180697 == solution_part_one(test_input3))
 
+    # solution_part_one(parse_input_file("Day14Input.txt"))
